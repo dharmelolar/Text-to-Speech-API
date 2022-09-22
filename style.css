@@ -1,0 +1,26 @@
+body {
+  background-color: aquamarine;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+div {
+  /* width: 500px;
+  height: 250px; */
+  display: flex;
+  flex-direction: column;
+}
+select{
+    margin: 2rem 0 2rem 0;
+    padding: .5rem 0 .5rem 0;
+}
+button{
+    padding: 1rem 0 1rem 0;
+    border: 2px solid green;
+    border-radius: 10px;
+    background-color: teal;
+    font-size: 1.5rem;
+    color: thistle;
+    font-family: monospace;
+}
