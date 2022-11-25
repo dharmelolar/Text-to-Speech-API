@@ -2,27 +2,21 @@ const text = document.getElementById("text");
 const submitBtn = document.getElementById("submit");
 const voiceSelect = document.getElementById("select");
 
+console.log("Web Speech API example");
+
+let voices = [];
+let currentVoice;
+let synth;
+
 if ("speechSynthesis" in window) {
   console.log("Web speech api supported");
+  synth = window.speechSynthesis;
 } else {
   console.log("Web speech api not supported");
 }
 
-submitBtn.addEventListener("click", () => {
-//   const synth = window.speechSynthesis;
-  let output = text.value;
-  const utterThis = new SpeechSynthesisUtterance(output);
-  // add this line of code
-  utterThis.voice = currentVoice;
-  speechSynthesis.speak(utterThis);
-  // text.value = "";
-});
-
-let voices;
-let currentVoice;
-
 const populateVoices = () => {
-  voices = speechSynthesis.getVoices();
+  voices = synth.getVoices();
 
   voices.forEach((voice) => {
     const option = document.createElement("option");
@@ -30,15 +24,30 @@ const populateVoices = () => {
     if (voice.default) {
       optionText += " [default]";
     }
-    option.textContent = optionText;
+    option.label = optionText;
+    option.value = voice.name;
     voiceSelect.appendChild(option);
   });
 };
 
 populateVoices();
-speechSynthesis.onvoiceschanged = populateVoices;
+
+if (synth.onvoiceschanged !== undefined) {
+  synth.onvoiceschanged = populateVoices;
+}
 
 voiceSelect.addEventListener("change", (event) => {
   const selectedVoice = event.target.value;
-  currentVoice = voices[selectedVoice];
+  currentVoice = voices.find((element) => {
+    if (element.name == selectedVoice) {
+        return element;
+    }
+  })
 });
+
+submitBtn.addEventListener("click", () => {
+    let output = text.value;
+    const utterThis = new SpeechSynthesisUtterance(output);
+    utterThis.voice = currentVoice;
+    synth.speak(utterThis);
+  });
