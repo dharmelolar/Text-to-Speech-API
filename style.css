@@ -6,8 +6,6 @@ body {
   height: 100vh;
 }
 div {
-  /* width: 500px;
-  height: 250px; */
   display: flex;
   flex-direction: column;
 }
@@ -21,6 +19,6 @@ button{
     border-radius: 10px;
     background-color: teal;
     font-size: 1.5rem;
-    color: thistle;
+    color: #d8bfd8;
     font-family: monospace;
 }
