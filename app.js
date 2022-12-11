@@ -1,22 +1,33 @@
+// select element from the dom
+
 const text = document.getElementById("text");
 const submitBtn = document.getElementById("submit");
 const voiceSelect = document.getElementById("select");
 
-console.log("Web Speech API example");
+//  declare empty variables
 
 let voices = [];
 let currentVoice;
-let synth;
+
+// check for browser support
 
 if ("speechSynthesis" in window) {
-  console.log("Web speech api supported");
-  synth = window.speechSynthesis;
+  console.log("Web speech API supported");
 } else {
-  console.log("Web speech api not supported");
+  console.log("Web speech API not supported");
 }
 
+submitBtn.addEventListener("click", () => {
+  let output = text.value;
+  const utterThis = new SpeechSynthesisUtterance(output);
+  utterThis.voice = currentVoice;
+  speechSynthesis.speak(utterThis);
+});
+
+// declare a function that retrieves all the voices available in the API
+
 const populateVoices = () => {
-  voices = synth.getVoices();
+  voices = speechSynthesis.getVoices();
 
   voices.forEach((voice) => {
     const option = document.createElement("option");
@@ -24,30 +35,22 @@ const populateVoices = () => {
     if (voice.default) {
       optionText += " [default]";
     }
-    option.label = optionText;
+    option.textContent = optionText;
     option.value = voice.name;
     voiceSelect.appendChild(option);
   });
 };
-
 populateVoices();
 
-if (synth.onvoiceschanged !== undefined) {
-  synth.onvoiceschanged = populateVoices;
+if (speechSynthesis.onvoiceschanged !== undefined) {
+  speechSynthesis.onvoiceschanged = populateVoices;
 }
 
 voiceSelect.addEventListener("change", (event) => {
   const selectedVoice = event.target.value;
   currentVoice = voices.find((element) => {
-    if (element.name == selectedVoice) {
-        return element;
+    if (element.name === selectedVoice) {
+      return element;
     }
-  })
-});
-
-submitBtn.addEventListener("click", () => {
-    let output = text.value;
-    const utterThis = new SpeechSynthesisUtterance(output);
-    utterThis.voice = currentVoice;
-    synth.speak(utterThis);
   });
+});
