@@ -14,7 +14,7 @@ let currentVoice;
 if ("speechSynthesis" in window) {
   console.log("Web speech API supported");
 } else {
-  console.log("Web speech API not supported");
+  console.log("Web speech API is not supported");
 }
 
 submitBtn.addEventListener("click", () => {
